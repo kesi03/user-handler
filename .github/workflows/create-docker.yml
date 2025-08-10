@@ -36,7 +36,7 @@ jobs:
 
       - name: Execute bash in running container
         run: |
-          docker exec -it my-running-app /bin/bash npx playwright test tests/bodgeit-registration.spec.ts --project=chromium --reporter=list
+          docker exec -it test-container /bin/bash npx playwright test tests/bodgeit-registration.spec.ts --project=chromium --reporter=list
 
       
       - name: Stop and remove the container
