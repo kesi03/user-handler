@@ -30,10 +30,15 @@ jobs:
         run: |
           sleep 10  # Wait for the server to start
 
-      - name: Run tests
-        run: |
-          curl "http://localhost:3000/run-test?test=bodgeit-registration"  # Adjust the test name as needed
+    #  - name: Run tests
+    #   run: |
+    #     curl "http://localhost:3000/run-test?test=bodgeit-registration"  # Adjust the test name as needed
 
+      - name: Execute bash in running container
+        run: |
+          docker exec -it my-running-app /bin/bash npx playwright test tests/bodgeit-registration.spec.ts --project=chromium --reporter=list
+
+      
       - name: Stop and remove the container
         run: |
           docker stop test-container
