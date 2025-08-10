@@ -1,11 +1,17 @@
 import { test, expect } from '@playwright/test';
 
-test('User Registration', async ({ page }) => {
-    await page.goto(`http://localhost:8090/bodgeit/register.jsp`);
+// Retrieve environment variables with default values
+const host = process.env.HOST || 'localhost';
+const port = process.env.PORT || '8090';
+const username = process.env.USERNAME || 'test@example.com';
+const password = process.env.LOSENORD || '123Test!Abcd';
 
-    await page.fill('#username', 'test@example.com');
-    await page.fill('#password1', '123Test!Abcd');
-    await page.fill('#password2','123Test!Abcd');
+test('User Registration', async ({ page }) => {
+    await page.goto(`http://${host}:${port}/bodgeit/register.jsp`);
+
+    await page.fill('#username', username);
+    await page.fill('#password1', password);
+    await page.fill('#password2', password);
     await page.click('#submit');
 
     const successMessageLocator = page.locator('body > center > table > tbody > tr:nth-child(3) > td > table > tbody > tr > td:nth-child(2)');
@@ -14,10 +20,10 @@ test('User Registration', async ({ page }) => {
 });
 
 test("Login with new user", async ({ page }) => {
-    await page.goto(`http://localhost:8090/bodgeit/login.jsp`);
+    await page.goto(`http://${host}:${port}/bodgeit/login.jsp`);
 
-    await page.fill('#username', 'test@example.com');
-    await page.fill('#password','123Test!Abcd');
+    await page.fill('#username', username);
+    await page.fill('#password', password);
     await page.click('#submit');
 
     const welcomeMessageLocator = page.locator('body > center > table > tbody > tr:nth-child(3) > td > table > tbody > tr > td:nth-child(2)');
