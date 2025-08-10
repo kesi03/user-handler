@@ -1,11 +1,16 @@
 import { test, expect } from '@playwright/test';
 
-test('User Registration', async ({ page }) => {
-    await page.goto('http://localhost:8080/bodgeit/register.jsp');
+const HOST = process.env.BODGEIT_HOST || 'localhost';
+const PORT = process.env.BODGEIT_PORT || '8090';
+const USERNAME = process.env.BODGEIT_USERNAME || 'test@example.com';
+const PASSWORD = process.env.BODGEIT_PASSWORD || '123Test!Abcd';
 
-    await page.fill('#username', 'test.two@example.com');
-    await page.fill('#password1', '123Test!Abcd');
-    await page.fill('#password2', '123Test!Abcd');
+test('User Registration', async ({ page }) => {
+    await page.goto(`http://${HOST}:${PORT}/bodgeit/register.jsp`);
+
+    await page.fill('#username', USERNAME);
+    await page.fill('#password1', PASSWORD);
+    await page.fill('#password2', PASSWORD);
     await page.click('#submit');
 
     const successMessageLocator = page.locator('body > center > table > tbody > tr:nth-child(3) > td > table > tbody > tr > td:nth-child(2)');
@@ -14,10 +19,10 @@ test('User Registration', async ({ page }) => {
 });
 
 test("Login with new user", async ({ page }) => {
-    await page.goto('http://localhost:8080/bodgeit/login.jsp');
+    await page.goto(`http://${HOST}:${PORT}/bodgeit/login.jsp`);
 
-    await page.fill('#username', 'test.two@example.com');
-    await page.fill('#password', '123Test!Abcd');
+    await page.fill('#username', USERNAME);
+    await page.fill('#password', PASSWORD);
     await page.click('#submit');
 
     const welcomeMessageLocator = page.locator('body > center > table > tbody > tr:nth-child(3) > td > table > tbody > tr > td:nth-child(2)');
