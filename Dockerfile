@@ -16,6 +16,12 @@ COPY . .
 # Install Playwright browsers
 RUN pnpm exec playwright install --with-deps
 
+# Set environment variables (you can set default values here)
+ENV HOST=localhost
+ENV PORT=8090
+ENV USERNAME=test@example.com
+ENV PASSWORD=123Test!Abcd
+
 # Expose the port
 EXPOSE 3000
 
