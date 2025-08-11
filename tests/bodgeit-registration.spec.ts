@@ -8,7 +8,7 @@ const password = process.env.LOSENORD || '123Test!Abcd';
 
 test('User Registration', async ({ page }) => {
     await page.goto(`http://${host}:${port}/bodgeit/register.jsp`);
-
+    console.log(`userName: ${username}, password:${password}`);
     await page.fill('#username', username);
     await page.fill('#password1', password);
     await page.fill('#password2', password);
@@ -21,7 +21,7 @@ test('User Registration', async ({ page }) => {
 
 test("Login with new user", async ({ page }) => {
     await page.goto(`http://${host}:${port}/bodgeit/login.jsp`);
-
+    console.log(`userName: ${username}, password:${password}`);
     await page.fill('#username', username);
     await page.fill('#password', password);
     await page.click('#submit');
