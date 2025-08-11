@@ -10,13 +10,24 @@ jobs:
         image: securecodebox/bodgeit:latest
         ports:
           - 8080:8080
-      playwright:
+      bodge-playwright:
         image: ghcr.io/${{ github.repository_owner }}/bodge-playwright:latest
         ports:
           - 3000:3000
     steps:
     - uses: actions/checkout@v4
 
-    - name: run Playwright Tests
+    - name: Wait for Bodgeit Service
       run: |
-        docker run playwright bash -c "npx playwright test tests/bodgeit-registration.spec.ts --project=chromium --reporter=list"
+        for i in {1..30}; do
+          if curl -s http://localhost:8080; then
+            echo "Bodgeit service is up!"
+            break
+          fi
+          echo "Waiting for Bodgeit service..."
+          sleep 2
+        done
+
+    - name: Run Playwright Tests
+      run: |
+        docker run --network host ghcr.io/${{ github.repository_owner }}/bodge-playwright:latest bash -c "npx playwright test tests/bodgeit-registration.spec.ts --project=chromium --reporter=list"
