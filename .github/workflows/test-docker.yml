@@ -28,6 +28,13 @@ jobs:
           sleep 2
         done
 
+    - name: Get Bodgeit Service IP
+      id: get_ip
+      run: |
+        IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' bodgeit)
+        echo "Bodgeit IP: $IP"
+        echo "HOST=$IP" >> $GITHUB_ENV
+
     - name: Run Playwright Tests
       run: |
-        docker run --network host ghcr.io/${{ github.repository_owner }}/bodge-playwright:latest bash -c "npx playwright test tests/bodgeit-registration.spec.ts --project=chromium --reporter=list"
+        docker run --network host -e HOST=${{ env.HOST }} ghcr.io/${{ github.repository_owner }}/bodge-playwright:latest bash -c "npx playwright test tests/bodgeit-registration.spec.ts --project=chromium --reporter=list"
