@@ -30,4 +30,4 @@ jobs:
 
     - name: Run Playwright Tests
       run: |
-        docker run --network host  ghcr.io/${{ github.repository_owner }}/bodge-playwright:latest bash -c "npx playwright test tests/bodgeit-registration.spec.ts --project=chromium --reporter=list"
+        docker run --network host  ghcr.io/${{ github.repository_owner }}/bodge-playwright:latest bash -c "npx playwright test tests/bodgeit-reg.spec.ts --project=chromium --reporter=list"
