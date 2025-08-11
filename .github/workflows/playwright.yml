@@ -9,7 +9,7 @@ jobs:
       bodgeit:
         image: securecodebox/bodgeit:latest
         ports:
-          - 8080:8080
+          - 8090:8080
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
