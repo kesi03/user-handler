@@ -1,0 +1,22 @@
+name: Playwright Test Docker
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    services:
+      bodgeit:
+        image: securecodebox/bodgeit:latest
+        ports:
+          - 8080:8080
+      playwright:
+        image: ghcr.io/${{ github.repository_owner }}/bodge-playwright:latest
+        ports:
+          - 3000:3000
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: run Playwright Tests
+      run: |
+        docker run playwright bash -c "npx playwright test tests/bodgeit-registration.spec.ts --project=chromium --reporter=list"
