@@ -9,7 +9,7 @@ jobs:
       bodgeit:
         image: securecodebox/bodgeit:latest
         ports:
-          - 8080:8080
+          - 8090:8080
       bodge-playwright:
         image: ghcr.io/${{ github.repository_owner }}/bodge-playwright:latest
         ports:
@@ -20,7 +20,7 @@ jobs:
     - name: Wait for Bodgeit Service
       run: |
         for i in {1..30}; do
-          if curl -s http://localhost:8080; then
+          if curl -s http://localhost:8090; then
             echo "Bodgeit service is up!"
             break
           fi
